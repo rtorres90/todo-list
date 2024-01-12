@@ -1,0 +1,65 @@
+{
+    "todo-lists": [
+      {
+        "title": "Work Tasks",
+        "tasks": [
+          {
+            "id": 1,
+            "title": "Finish Project Proposal",
+            "completed": false
+          },
+          {
+            "id": 2,
+            "title": "Attend Team Meeting",
+            "completed": true
+          },
+          {
+            "id": 3,
+            "title": "Update Presentation",
+            "completed": false
+          }
+        ]
+      },
+      {
+        "title": "Personal Goals",
+        "tasks": [
+          {
+            "id": 4,
+            "title": "Exercise for 30 Minutes",
+            "completed": false
+          },
+          {
+            "id": 5,
+            "title": "Learn a New Recipe",
+            "completed": true
+          },
+          {
+            "id": 6,
+            "title": "Read for 20 Minutes",
+            "completed": false
+          }
+        ]
+      },
+      {
+        "title": "Shopping List",
+        "tasks": [
+          {
+            "id": 7,
+            "title": "Buy Groceries",
+            "completed": false
+          },
+          {
+            "id": 8,
+            "title": "Pick up Dry Cleaning",
+            "completed": false
+          },
+          {
+            "id": 9,
+            "title": "Get Birthday Gift",
+            "completed": true
+          }
+        ]
+      }
+    ]
+  }
+  
