@@ -1,12 +1,12 @@
 // Task interface representing an individual task
-interface Task {
+export interface Task {
     id: number;
     title: string;
     completed: boolean;
 }
 
 // TodoList interface representing a todo list
-interface TodoList {
+export interface TodoList {
     title: string;
     tasks: Task[];
 }

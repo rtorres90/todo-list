@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { ListsComponent } from './lists/lists.component';
+import { ListsComponent } from './lists/list.component';
+import { TodoList } from './interfaces';
+import { TodolistService } from './todolist.service';
 
 @Component({
   selector: 'app-root',
@@ -15,19 +17,24 @@ import { ListsComponent } from './lists/lists.component';
     <aside>
           <!-- Contenido de la barra lateral -->
           <h2>Sidebar</h2>
-          <ul>
-              <li><a href="#">Enlace 1</a></li>
-              <li><a href="#">Enlace 2</a></li>
-              <li><a href="#">Enlace 3</a></li>
-          </ul>
-          <app-lists></app-lists>
+          <app-list *ngFor="let todoList of todoLists" [todoList]="todoList"></app-list>
       </aside>
 
       <main>
-        <h1>Hello World!</h1>
+        <h1>{{selectedTodoList?.title}}</h1>
       </main>
   `,
 })
 export class AppComponent {
-  title = 'todo-list';
+  selectedTodoList?:TodoList;
+  todoLists: TodoList[] = [];
+  todoListService: TodolistService = inject(TodolistService)
+
+  constructor() {
+    this.todoListService.getAllTodoLists().then((todoLists: TodoList[]) => {
+      this.todoLists = todoLists;
+      this.selectedTodoList = todoLists[0];
+      console.log(this.todoLists);
+    });
+  }
 }
