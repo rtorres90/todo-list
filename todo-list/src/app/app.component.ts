@@ -1,40 +1,22 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { ListsComponent } from './lists/list.component';
 import { TodoList } from './interfaces';
 import { TodolistService } from './todolist.service';
+import { HomeComponent } from './home/home.component';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule, 
-    RouterOutlet,
-    ListsComponent
+    HomeComponent,
+    RouterModule
   ],
   template: `
-    <aside>
-          <!-- Contenido de la barra lateral -->
-          <h2>Sidebar</h2>
-          <app-list *ngFor="let todoList of todoLists" [todoList]="todoList"></app-list>
-      </aside>
-
-      <main>
-        <h1>{{selectedTodoList?.title}}</h1>
-      </main>
+    <router-outlet></router-outlet>
   `,
 })
 export class AppComponent {
-  selectedTodoList?:TodoList;
-  todoLists: TodoList[] = [];
-  todoListService: TodolistService = inject(TodolistService)
-
-  constructor() {
-    this.todoListService.getAllTodoLists().then((todoLists: TodoList[]) => {
-      this.todoLists = todoLists;
-      this.selectedTodoList = todoLists[0];
-      console.log(this.todoLists);
-    });
-  }
 }

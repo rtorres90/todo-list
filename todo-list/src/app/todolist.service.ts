@@ -14,4 +14,16 @@ export class TodolistService {
     const data = await fetch(this.url);
     return await data.json() ?? [];
   }
+
+  async createTodoList(newTodoList: TodoList): Promise<TodoList>{
+    const response = await fetch(this.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTodoList)
+    });
+
+    return await response.json();
+  }
 }

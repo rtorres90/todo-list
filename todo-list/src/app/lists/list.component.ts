@@ -7,9 +7,9 @@ import { TodoList } from '../interfaces';
   standalone: true,
   imports: [],
   template: `
-    <p>
+    <div class="list">
       {{ todoList.title }}
-    </p>
+    </div>
   `,
   styleUrl: './list.component.css'
 })
