@@ -26,4 +26,16 @@ export class TodolistService {
 
     return await response.json();
   }
+
+  async updateTodoList(todoList: TodoList): Promise<TodoList>{
+    const response = await fetch(`${this.url}/${todoList.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(todoList)
+    });
+
+    return await response.json();
+  }
 }

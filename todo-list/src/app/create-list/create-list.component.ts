@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { TodolistService } from '../todolist.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TodoList } from '../interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-list',
@@ -12,7 +13,7 @@ import { TodoList } from '../interfaces';
   template: `
     <h2 class="section-heading">Apply now to live here</h2>
       <form [formGroup]="createForm" (submit)="submitList()">
-        <label for="title">Title</label>
+        <label for="title">Todo List Title</label>
         <input id="title" type="text" formControlName="title" required>
         <button type="submit" class="primary">Apply now</button>
       </form>
@@ -26,6 +27,9 @@ export class CreateListComponent {
     title: new FormControl(''),
   });
 
+  constructor(private router: Router) { }
+
+
   submitList() {
     const newList: TodoList = {
       title: this.createForm.value.title ?? "",
@@ -33,6 +37,8 @@ export class CreateListComponent {
     }
     this.todoListService.createTodoList(newList).then((todoList: TodoList) => {
       console.log(todoList);
+      alert(`The new Todo List "${todoList.title}" was created.`)
+      this.router.navigate(['/']);
     });
   }
 }
