@@ -5,6 +5,11 @@ import { ListsComponent } from '../lists/list.component';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-home',
@@ -13,37 +18,54 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ListsComponent,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatListModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   template: `
     <aside>
       <h2>Lists</h2>
-      <app-list *ngFor="let todoList of todoLists" [todoList]="todoList" id="{{ todoList.title }}" (click)="changeSelectedTodoList(todoList.title);"></app-list>
-      <a [routerLink]="['create']">Add new List</a>
+      <mat-nav-list>
+        <app-list *ngFor="let todoList of todoLists" [todoList]="todoList" id="{{ todoList.title }}" (click)="changeSelectedTodoList(todoList.title);"></app-list>
+      </mat-nav-list>
+      <a mat-button [routerLink]="['create']">Add new List</a>
     </aside>
 
       <main>
-        <h1>{{selectedTodoList.title}}</h1>
-        <h2>Tasks:</h2>
-        <ul>
-          <li *ngFor="let task of selectedTodoList?.tasks">{{ task.title }} <input type="checkbox" id="{{ task.id }}" [checked]="task.completed"/></li>
-        </ul>
+        <mat-card>
+          <mat-card-header>
+            <h1>{{selectedTodoList.title}}</h1>
+          </mat-card-header>
+          <mat-card-content>
+            <h2>Tasks:</h2>
+            <mat-selection-list>
+              <mat-list-option *ngFor="let task of selectedTodoList?.tasks" [selected]="task.completed">{{ task.title }}</mat-list-option>
+            </mat-selection-list>
+          </mat-card-content>
+        </mat-card>
         <form [formGroup]="updateTask" (submit)="updateTaskOfTodoList()">
-          <label for="taskTitle">Task title</label>
-          <input id="taskTitle" type="text" formControlName="taskTitle" required>
-          <button type="submit" class="primary">Create new task</button>
+          <mat-form-field>
+            <mat-label>Task title</mat-label>
+            <input id="taskTitle" type="text" formControlName="taskTitle" matInput>
+          </mat-form-field>
+          <button mat-button type="submit" class="primary">Create new task</button>
         </form>
         <form [formGroup]="updateTodoListForm" (submit)="updateTodoList()">
-          <label for="title">Todo List Title</label>
-          <input id="title" type="text" formControlName="title" required value="{{ selectedTodoList.title }}">
-          <button type="submit" class="primary">Update title</button>
+          <mat-form-field>
+            <mat-label>Todo List Title</mat-label>
+            <input id="title" type="text" formControlName="title" required value="{{ selectedTodoList.title }}" matInput>
+          </mat-form-field>
+          <button mat-button type="submit" class="primary">Update title</button>
         </form>
       </main>
   `,
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  emptyTodoList:TodoList = { title: "", tasks: [] };
+  emptyTodoList: TodoList = { title: "", tasks: [] };
   selectedTodoList: TodoList = this.emptyTodoList;
   todoLists: TodoList[] = [];
   todoListService: TodolistService = inject(TodolistService)
@@ -71,10 +93,10 @@ export class HomeComponent {
     this.selectedTodoList = this.todoLists.find(list => list.title === taskTitle) ?? this.emptyTodoList;
   }
 
-  updateTaskOfTodoList(){
+  updateTaskOfTodoList() {
     this.selectedTodoList.tasks.push({
-      title: this.updateTask.value.taskTitle ?? "", 
-      completed:false
+      title: this.updateTask.value.taskTitle ?? "",
+      completed: false
     });
     this.todoListService.updateTodoList(this.selectedTodoList).then((todoList: TodoList) => {
       console.log(todoList);
